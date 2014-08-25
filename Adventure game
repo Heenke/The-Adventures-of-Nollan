@@ -1,0 +1,28 @@
+Adventure game,
+- Intro
+	There have been rumors about the mighty tool from the future
+	And you have been assinged the great quest to expolre .. and find the missing piceses. You will have to enter The Dark Forest and climb the slippery mountains and conquer the great bat in the concrete cave.
+	Happy adventure time!
+-  Choose class
+	Dwarf - Dwain of Hubbendoor 
+		Axe
+	Elf - Alf 
+		Longbow
+	Human - Emilia
+		Longsword
+- Choose path 
+	1. The Dark Forest
+	2. Concrete Cave
+	3. Slippery Mountains	
+1. TDF
+	1. 
+	2.
+
+
+parts = ['1', '1', '1']
+
+class room
+	name
+	des
+	monster
+	loot
