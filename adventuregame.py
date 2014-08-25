@@ -42,7 +42,7 @@ def walk():
 def look():
 	global destination
 	destination.getDes()
-
+# Here is the attack function 
 def attack():
 	global destination, hp, inventory
 	destination.getQuestion()
