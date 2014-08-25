@@ -28,7 +28,11 @@ class room:
 
 TDF = room('The Dark Forest', 'The forset is dark, there is a monster guarding the loot, attack the spider for the loot', 'Spider', 'Keyboard', 'How many legs does a spider have?', '8')
 CC = room('Concrete Cave', 'Damp', 'The big Bat', 'Screen', 'Is tha bat blind', 'YES')
+<<<<<<< HEAD
 #Were to go
+=======
+# Here is the walk function
+>>>>>>> FETCH_HEAD
 def walk():
 	global destination
 	arg = str(raw_input('left or right? > '))
