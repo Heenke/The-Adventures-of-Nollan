@@ -50,13 +50,12 @@ class monster:
 
 	def getAnswer(self):
 		return self.answer
-			
 
 Sp = monster('The Creepy Spider', 'Keyboard', 'How many legs does a spider have?', '8')
 Tbb = monster('The big Bat', 'Screen', 'Is tha bat blind (y/n)', 'y')
 Wk = monster('Wizard King', 'Computer', '4 + 4', '8')
 
-TDF = room('The Dark Forest', 'The forset is dark, there is a monster guarding the loot, attack the spider for the loot', Sp, '0', '-1', '0')
+TDF = room('The Dark Forest', 'The forest is dark, there is a monster guarding the loot, attack the spider for the loot', Sp, '0', '-1', '0')
 CC = room('Concrete Cave', 'Damp', Tbb, '0', '1', '0')
 Start = room('Start', 'Empty, maybe you want to walk east or west or north', 0, '0', '0', '0')
 WP = room('Wizards Palace', 'Classy', Wk, '2', '0', '1')
@@ -64,80 +63,60 @@ WP = room('Wizards Palace', 'Classy', Wk, '2', '0', '1')
 places = [TDF, CC, Start, WP]
 
 def check_cor_x():
-	global new_cor, y, x, places, arg_cor, destination, newdestination, km
+	global new_cor, y, x, places, arg_cor, newdestination
 	if new_cor > 1:
 		print 'Cannot go further in this direction'
 	elif new_cor < -1:
 		print 'Cannot go further in this direction'
 	else:
 		for i in places:
-			#print 'New Cor = ',
-			#print x
-			#i.printx()
 			if i.getX() == str(new_cor) and i.getY() == str(y):
-				newdestination = i	
-		print len(km)
-		print str(newdestination)
-		newdestination.printKey()
-		if len(km) < newdestination.getKey() or len(km) != newdestination.getKey:
-			print 'Kill more monsters!!!'
-		else:
-			x = new_cor
-			destination = newdestination 
+				newdestination = i
+				x = new_cor
 
 def check_cor_y():
-	global new_cor, y, x, places, arg_cor, destination, newdestination, km
+	global new_cor, y, x, places, arg_cor, newdestination, km
 	if new_cor > 1:
 		print 'Cannot go further in this direction'
 	elif new_cor < -1:
 		print 'Cannot go further in this direction'
 	else:
 		for i in places:
-			#print 'New Cor = ',
-			#print y
-			#i.printY()
 			if i.getY() == str(new_cor) and i.getX() == str(x):
-				newdestination = i	
-		print len(km)
-		newdestination.printKey()
-		print newdestination
-		if len(km) < newdestination.getKey():
-			print 'Kill more monsters!!!'
-		else:
-			y = new_cor
-			destination = newdestination 
-
+				if len(km) >= int(i.getKey()):
+					newdestination = i
+					y = new_cor
+				else:
+					print 'Kill more enemies first!!!!'
 def move():
-	global destination, new_cor, y, x, newdestination
+	global destination, new_cor, x, y, newdestination
 	arg_cor = str(raw_input('Which Direction? > '))
 	if arg_cor == 'north':
 		new_cor = y + 1
 		check_cor_y()
-		#check_key()
-		#destination = newdestination
+		destination = newdestination
 	elif arg_cor == 'south':
 		new_cor = y - 1
 		check_cor_y()
-		#check_key()
-		#destination = newdestination
+		destination = newdestination
 	elif arg_cor == 'east':
 		new_cor = x + 1
 		check_cor_x()
-		#check_key()
-		#destination = newdestination
+		destination = newdestination
 	elif arg_cor == 'west':
 		new_cor = x - 1
 		check_cor_x()
-		#check_key()
-		#destination = newdestination
+		destination = newdestination
 	else:
 		print 'Cannot go to %s' %arg	
+
 def look():
 	global destination
 	if destination == 0:
 		print 'This room is empty, you need to walk somewhere'
 	else:
 		destination.getDes()
+
 # Here is the attack function 
 def attack():
 	global destination, hp, inventory, km
@@ -170,8 +149,6 @@ def help():
 	print 'Available commands'
 	print "walk, look, attack, inv"
 
-
-destination = 0
 hp = 10
 inventory = []
 km = []
