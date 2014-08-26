@@ -1,11 +1,8 @@
 class room:
-	def __init__(self, name, description, monster, loot, question, answer, key, x, y):
+	def __init__(self, name, description, monster_nick, key, x, y):
 		self.name = name
 		self.description = description
-		self.monster = monster
-		self.loot = loot
-		self.question = question
-		self.answer = answer
+		self.monster_nick = monster_nick
 		self.key = key
 		self.x = x
 		self.y = y
@@ -17,18 +14,13 @@ class room:
 		print self.description
 
 	def getMonster(self):
-		return self.monster
+		return self.monster_nick
 
-	def getLoot(self):
-		return self.loot	
-
-	def getQuestion(self):
-		print self.question	
-
-	def getAnswer(self):
-		return self.answer
-	def key(self):
+	def getKey(self):
 		return self.key
+
+	def printKey(self):
+		print self.key
 
 	def getX(self):
 		return self.x
@@ -39,67 +31,105 @@ class room:
 	def printY(self):
 		print 'Y cor for %s' %self.name
 		print self.y
+
+class monster:
+	def __init__(self, enemy, loot, question, answer):
+		self.enemy = enemy
+		self.loot = loot
+		self.question = question
+		self. answer = answer
+
+	def getEnemy(self):
+		print self.enemy
+
+	def getLoot(self):
+		return self.loot	
+
+	def getQuestion(self):
+		print self.question	
+
+	def getAnswer(self):
+		return self.answer
 			
 
-TDF = room('The Dark Forest', 'The forset is dark, there is a monster guarding the loot, attack the spider for the loot', 'Spider', 'Keyboard', 'How many legs does a spider have?', '8', '0', '-1', '0')
-CC = room('Concrete Cave', 'Damp', 'The big Bat', 'Screen', 'Is tha bat blind (y/n)', 'y', '0', '1', '0')
-Start = room('Start', 'Empty, maybe you want to walk east or west or north', '0', '0', '0', '0', '0', '0', '0')
-WP = room('Wizards Palace', 'Classy', 'Wizard', 'Computer', '4 + 4', '8', '2', '0', '1')
+Sp = monster('The Creepy Spider', 'Keyboard', 'How many legs does a spider have?', '8')
+Tbb = monster('The big Bat', 'Screen', 'Is tha bat blind (y/n)', 'y')
+Wk = monster('Wizard King', 'Computer', '4 + 4', '8')
+
+TDF = room('The Dark Forest', 'The forset is dark, there is a monster guarding the loot, attack the spider for the loot', Sp, '0', '-1', '0')
+CC = room('Concrete Cave', 'Damp', Tbb, '0', '1', '0')
+Start = room('Start', 'Empty, maybe you want to walk east or west or north', 0, '0', '0', '0')
+WP = room('Wizards Palace', 'Classy', Wk, '2', '0', '1')
+
 places = [TDF, CC, Start, WP]
-# Here is the walk function
-def walk():
-	global destination
-	arg = str(raw_input('left or right? > '))
-	if arg == "left":
-		destination = TDF
-	elif arg == "right":
-		destination = CC
-	print "You are now in the",
-	destination.getName()
 
 def check_cor_x():
-	global new_cor, x, places, arg_cor, destination
+	global new_cor, y, x, places, arg_cor, destination, newdestination, km
 	if new_cor > 1:
 		print 'Cannot go further in this direction'
 	elif new_cor < -1:
 		print 'Cannot go further in this direction'
 	else:
-		x = new_cor
 		for i in places:
 			#print 'New Cor = ',
 			#print x
 			#i.printx()
-			if i.getX() == str(x):
-				destination = i 
+			if i.getX() == str(new_cor) and i.getY() == str(y):
+				newdestination = i	
+		print len(km)
+		print str(newdestination)
+		newdestination.printKey()
+		if len(km) < newdestination.getKey() or len(km) != newdestination.getKey:
+			print 'Kill more monsters!!!'
+		else:
+			x = new_cor
+			destination = newdestination 
+
 def check_cor_y():
-	global new_cor, y, places, arg_cor, destination
+	global new_cor, y, x, places, arg_cor, destination, newdestination, km
 	if new_cor > 1:
 		print 'Cannot go further in this direction'
 	elif new_cor < -1:
 		print 'Cannot go further in this direction'
 	else:
-		y = new_cor
 		for i in places:
 			#print 'New Cor = ',
 			#print y
 			#i.printY()
-			if i.getY() == str(y):
-				destination = i 
+			if i.getY() == str(new_cor) and i.getX() == str(x):
+				newdestination = i	
+		print len(km)
+		newdestination.printKey()
+		print newdestination
+		if len(km) < newdestination.getKey():
+			print 'Kill more monsters!!!'
+		else:
+			y = new_cor
+			destination = newdestination 
+
 def move():
-	global destination, new_cor, y, x
+	global destination, new_cor, y, x, newdestination
 	arg_cor = str(raw_input('Which Direction? > '))
 	if arg_cor == 'north':
 		new_cor = y + 1
 		check_cor_y()
+		#check_key()
+		#destination = newdestination
 	elif arg_cor == 'south':
 		new_cor = y - 1
 		check_cor_y()
+		#check_key()
+		#destination = newdestination
 	elif arg_cor == 'east':
 		new_cor = x + 1
 		check_cor_x()
+		#check_key()
+		#destination = newdestination
 	elif arg_cor == 'west':
 		new_cor = x - 1
 		check_cor_x()
+		#check_key()
+		#destination = newdestination
 	else:
 		print 'Cannot go to %s' %arg	
 def look():
@@ -116,11 +146,12 @@ def attack():
 	elif destination.getMonster() in km:
 		print "You have already slained this enemy"
 	else:
-		destination.getQuestion()
+		att_enemy = destination.getMonster()
+		att_enemy.getQuestion()
 		answer = raw_input('> ')
-		if answer == destination.getAnswer():
+		if answer == att_enemy.getAnswer():
 			print "Correct! You get the loot =)"
-			inventory.append(destination.getLoot())
+			inventory.append(att_enemy.getLoot())
 			km.append(destination.getMonster())
 			if len(km) == 2:
 				print 'Travel north to the wizard, he will help you build your computer'
@@ -148,7 +179,9 @@ x = 0
 y = 0
 new_cor = 0
 destination = Start
-while hp > 0 and len(inventory) < 2:
+newdestination = 0
+
+while hp > 0:
 	print x, y
 	print 'You are now in',
 	destination.getName()
