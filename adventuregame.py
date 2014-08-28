@@ -172,7 +172,7 @@ print 'To navigate through the world type walk and then east, west or north'
 time.sleep(1)
 print 'The quest is to collect the loot from The Dark Forest in the west and'
 time.sleep(1)
-print ' the loot from Concrete Caves in the east'
+print 'the loot from Concrete Caves in the east'
 time.sleep(1)
 print 'When you have all the parts it is time to battle the Wizard in his Palace in the north'
 time.sleep(1)
